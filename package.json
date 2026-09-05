@@ -1,0 +1,67 @@
+{
+  "name": "@baginskicosta/bunpack",
+  "description": "Modern bundling for TypeScript and JavaScript libraries, powered by Bun.",
+  "homepage": "https://github.com/baginskicosta/bunpack",
+  "version": "0.2.0",
+  "license": "MIT",
+  "author": {
+    "email": "baginskicosta@gmail.com",
+    "name": "Eduardo Baginski Costa",
+    "url": "https://github.com/baginskicosta"
+  },
+  "funding": {
+    "type": "patreon",
+    "url": "https://patreon.com/baginskicostadev"
+  },
+  "bugs": {
+    "url": "https://github.com/baginskicosta/bunpack/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baginskicosta/bunpack.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true,
+    "tag": "latest"
+  },
+  "keywords": [
+    "typescript",
+    "javascript",
+    "bundling",
+    "bundler",
+    "bunjs",
+    "bun",
+    "cli"
+  ],
+  "packageManager": "bun@1.4.0",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "bin": {
+    "bunpack": "dist/cli.js"
+  },
+  "scripts": {
+    "format": "biome check --write .",
+    "check": "bun run typecheck && bun run check:lint && bun run knip",
+    "check:lint": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "fix": "biome check --write .",
+    "knip": "knip",
+    "build": "bun build ./source/index.ts --outfile ./dist/cli.js --minify --sourcemap=none --target=bun",
+    "release": "bun run check && bun run build",
+    "prepublishOnly": "bun run release",
+    "publish:dry": "bunx npm publish --dry-run"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.12",
+    "@types/bun": "latest",
+    "@types/node": "^26.4.1",
+    "knip": "^6.34.0",
+    "typescript": "^7.0.2"
+  }
+}

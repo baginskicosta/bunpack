@@ -1,0 +1,39 @@
+name: Continuous Integration (CI)
+on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - ".github/FUNDING.yml"
+      - ".gitignore"
+      - "CITATION.cff"
+      - "LICENSE"
+      - "README.md"
+      - "**.md"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Type Check
+        run: bun run typecheck
+
+      - name: Lint Check
+        run: bun run check:lint
+
+      - name: Knip
+        run: bun run knip

@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as follows."
+
+title: "@baginskicosta/bunpack"
+version: "0.1.0"
+date-released: 2026-09-01
+
+authors:
+  - family-names: "Baginski Costa"
+    given-names: "Eduardo"
+
+type: software
+repository-code: "https://github.com/software/bunpack"
+url: "https://github.com/baginskicosta/bunpack"
