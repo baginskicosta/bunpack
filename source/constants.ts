@@ -1,9 +1,10 @@
 import { cwd } from "node:process";
+import { version } from "../package.json";
 
 // * --- constants
 
 /** Bunpack version. */
-export const VERSION: string = "0.2.0";
+export const VERSION: string = version;
 
 /** Name of the bundler configuration file read from the project root. */
 export const CONFIG_FILENAME: string = "bunpack.json";
