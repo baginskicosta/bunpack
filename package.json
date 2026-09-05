@@ -2,7 +2,7 @@
   "name": "@baginskicosta/bunpack",
   "description": "Modern bundling for TypeScript and JavaScript libraries, powered by Bun.",
   "homepage": "https://github.com/baginskicosta/bunpack",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "MIT",
   "author": {
     "email": "baginskicosta@gmail.com",
