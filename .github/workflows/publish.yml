@@ -35,4 +35,4 @@ jobs:
         run: bun run build
 
       - name: Publish Package
-        run: npm publish --provenance --access public
+        run: npm stage publish
