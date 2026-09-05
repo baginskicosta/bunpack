@@ -94,6 +94,9 @@ export type TBundlerConfig = {
 
     /** Subdirectory inside `outdir` where `.d.ts` files are written. */
     directory: string;
+
+    /** Path to `tsconfig` file relative to the project root. */
+    tsconfig: string;
   };
 };
 

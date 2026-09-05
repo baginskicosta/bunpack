@@ -200,7 +200,8 @@ that need to support both `ESM` and `CJS` across multiple runtimes:
   ],
   "declarations": {
     "enabled": true,
-    "directory": "types"
+    "directory": "types",
+    "tsconfig": "./tsconfig.build.json"
   }
 }
 ```
@@ -393,45 +394,52 @@ This allows libraries to expose the same API through both modern
 ## TypeScript Declarations
 
 The `declarations` property controls the generation of TypeScript
-declaration files.\
+declaration files.
+
 A typical configuration is:
 
 ```json
 {
   "declarations": {
     "enabled": true,
-    "directory": "types"
+    "directory": "types",
+    "tsconfig": "./tsconfig.build.json"
   }
 }
 ```
 
-The `enabled` property determines whether TypeScript declaration files
-should be generated.
+The `tsconfig` property specifies the TypeScript configuration used
+when analyzing the project source and generating declaration files.
 
-The `directory` property defines the directory where generated
-declaration files are written. The directory is resolved relative to
-the configured `outdir`.
+The build configuration can extend the project's main `tsconfig.json`
+while defining only the files and directories that should be included
+or excluded from the declaration build.
 
-For example, with the following configuration:
+For example:
 
 ```json
 {
-  "outdir": "dist",
-  "declarations": {
-    "enabled": true,
-    "directory": "types"
-  }
+  "extends": "./tsconfig.json",
+  "include": ["source/**/*.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }
 ```
 
-The generated declaration files will be written to the `types`
-directory inside `dist`. When declaration generation is enabled,
-the generated files preserve the structure of the project's source
-entry points.
+In this configuration, `tsconfig.build.json` inherits the project's
+base TypeScript configuration and only defines the source files that
+should participate in the build.
 
-Declaration generation is handled directly by
-`@baginskicosta/bunpack`, so no additional TypeScript build
-configuration is required.
+The `include` property specifies the source files that should be
+analyzed, while `exclude` prevents files and directories that should
+not be part of the library build from being considered.
+
+The actual declaration output is controlled by the `declarations`
+configuration in `bunpack.json`. This allows the TypeScript build
+configuration to remain focused on describing the project's source
+boundaries without duplicating output-related compiler options.
+
+The generated declaration files can use different extensions when
+required by the target module system, including `.d.ts` and `.d.cts`.
 
 <!-- * build * -->
 

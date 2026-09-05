@@ -225,10 +225,17 @@ function collectConfigErrors(raw: Record<string, unknown>): string[] {
       assertSafeRelativePath(d.directory, "declarations.directory", errors);
     }
 
-    if (d.enabled === true && d.directory === undefined) {
-      errors.push(
-        '"declarations.directory" must be defined when "declarations.enabled" is true',
-      );
+    if (d.enabled === true) {
+      if (d.directory === undefined) {
+        errors.push(
+          '"declarations.directory" must be defined when "declarations.enabled" is true',
+        );
+      }
+      if (typeof d.tsconfig !== "string" || d.tsconfig.trim() === "") {
+        errors.push(
+          '"declarations.tsconfig" must be a non-empty string when "declarations.enabled" is true',
+        );
+      }
     }
   }
 
@@ -448,15 +455,20 @@ export async function generateDeclarations(
     config.declarations.directory,
   );
   const rootDir: string = resolve(ROOT_DIR, config.rootdir);
+  const { tsconfig } = config.declarations;
 
   // # path confinement
   assertPathWithin(ROOT_DIR, declarationDir, "declarations.directory");
-  const entrypoints = config.entries.map((e) =>
-    resolve(ROOT_DIR, config.rootdir, e.entrypoint),
-  );
+
+  const tsconfigPath: string = resolve(ROOT_DIR, tsconfig);
+  if (!(await file(tsconfigPath).exists())) {
+    throw new BundlerError(`tsconfig not found: "${tsconfigPath}"`);
+  }
+  assertPathWithin(ROOT_DIR, tsconfigPath, "declarations.tsconfig");
 
   const flags = [
-    "--ignoreConfig",
+    "-p",
+    tsconfigPath,
     "--declaration",
     "--emitDeclarationOnly",
     "--noEmit",
@@ -467,10 +479,7 @@ export async function generateDeclarations(
     rootDir,
   ];
 
-  const result = await $`bunx --bun tsc ${entrypoints} ${flags}`
-    .quiet()
-    .nothrow();
-
+  const result = await $`bunx --bun tsc ${flags}`.quiet().nothrow();
   if (result.exitCode !== 0) {
     const stdout = result.stdout.toString().trim();
     const stderr = result.stderr.toString().trim();

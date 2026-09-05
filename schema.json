@@ -83,11 +83,14 @@
         },
         "directory": {
           "type": "string",
-          "description": "Directory where declaration files are generated.",
-          "default": "types"
+          "description": "Directory where declaration files are generated."
+        },
+        "tsconfig": {
+          "type": "string",
+          "description": "Path to a tsconfig file relative to project root."
         }
       },
-      "required": ["enabled", "directory"]
+      "required": ["enabled", "directory", "tsconfig"]
     }
   },
   "required": [
