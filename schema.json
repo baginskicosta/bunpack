@@ -87,7 +87,7 @@
           "default": "types"
         }
       },
-      "required": ["enabled", "tsconfig", "directory", "extension"]
+      "required": ["enabled", "directory"]
     }
   },
   "required": [
