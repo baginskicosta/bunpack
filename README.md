@@ -131,7 +131,7 @@ A minimal configuration can be created as follow:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/baginskicosta/bunpack/refs/heads/main/schema.json"
+  "$schema": "https://raw.githubusercontent.com/baginskicosta/bunpack/main/schema.json"
 }
 ```
 
@@ -170,7 +170,7 @@ that need to support both `ESM` and `CJS` across multiple runtimes:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/baginskicosta/bunpack/refs/heads/main/schema.json",
+  "$schema": "https://raw.githubusercontent.com/baginskicosta/bunpack/main/schema.json",
   "outdir": "dist",
   "rootdir": "source",
   "target": "node",
