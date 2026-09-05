@@ -1,9 +1,7 @@
 name: Publish Package
 run-name: Publish Package - ${{ github.ref_name }}
 on:
-  push:
-    tags:
-      - "v*"
+  workflow_call:
 
 permissions:
   contents: read
@@ -11,10 +9,10 @@ permissions:
 
 jobs:
   publish:
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -22,11 +20,10 @@ jobs:
           bun-version: 1.4.0
 
       - name: Setup Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v4
         with:
           node-version: 24
           registry-url: "https://registry.npmjs.org"
-          package-manager-cache: false
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
@@ -37,5 +34,5 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Stage Package
-        run: npm stage publish
+      - name: Publish Package
+        run: npm publish --provenance --access public
